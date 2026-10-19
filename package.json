@@ -1,0 +1,19 @@
+{
+  "name": "wishfold",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wishfold: a 7x7 cluster-pays slot folded from paper, built with Next.js (plain JS). Virtual credits only.",
+  "scripts": {
+    "dev": "next dev -p 3300",
+    "build": "next build",
+    "start": "next start -p 3300",
+    "test": "node --test tests/",
+    "sim": "node scripts/simulate.js"
+  },
+  "dependencies": {
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "type": "module"
+}

@@ -1,0 +1,427 @@
+/* ---------------------------------------------------------------- the frame: three sheets of paper stacked under the mat */
+.frame {
+  position: absolute;
+  inset: calc(var(--t) * -0.26);
+  pointer-events: none;
+}
+.frame i {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--t) * 0.36);
+}
+.frame i:nth-child(1) {
+  background: linear-gradient(160deg, #ff7a5c, #e63e52);
+  transform: rotate(-1.3deg) scale(1.025);
+  box-shadow: var(--lift);
+}
+.frame i:nth-child(2) {
+  background: linear-gradient(160deg, #ffd45e, #f2a516);
+  transform: rotate(0.9deg) scale(1.012);
+  box-shadow: var(--lift-sm);
+}
+.frame i:nth-child(3) {
+  background:
+    repeating-conic-gradient(rgba(255, 255, 255, 0.4) 0 25%, transparent 0 50%) calc(var(--t) * 0.26) calc(var(--t) * 0.26) / calc(var(--t) * 2)
+      calc(var(--t) * 2),
+    linear-gradient(160deg, #fff8e8, #f3deb6);
+  box-shadow: var(--lift-sm);
+}
+/* the creases the figures sit in */
+.frame i:nth-child(3)::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--t) * 0.26);
+  background:
+    linear-gradient(
+        to right,
+        transparent calc(var(--t) - 2px),
+        rgba(130, 80, 30, 0.2) calc(var(--t) - 2px) calc(var(--t) - 1px),
+        rgba(255, 255, 255, 0.7) calc(var(--t) - 1px) var(--t)
+      )
+      0 0 / var(--t) var(--t),
+    linear-gradient(
+        to bottom,
+        transparent calc(var(--t) - 2px),
+        rgba(130, 80, 30, 0.2) calc(var(--t) - 2px) calc(var(--t) - 1px),
+        rgba(255, 255, 255, 0.7) calc(var(--t) - 1px) var(--t)
+      )
+      0 0 / var(--t) var(--t);
+}
+/* a folded corner */
+.frame b {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(var(--t) * 0.75);
+  height: calc(var(--t) * 0.75);
+  border-top-right-radius: calc(var(--t) * 0.36);
+  background: linear-gradient(225deg, transparent 50%, #f1c9a0 50%, #e6b283 100%);
+  filter: drop-shadow(calc(var(--t) * -0.03) calc(var(--t) * 0.04) calc(var(--t) * 0.03) rgba(60, 20, 0, 0.35));
+}
+
+.stage[data-mode='pond'] .frame i:nth-child(1) {
+  background: linear-gradient(160deg, #38d6c9, #0b8fb0);
+}
+.stage[data-mode='pond'] .frame i:nth-child(2) {
+  background: linear-gradient(160deg, #8ef0d0, #31b8a0);
+}
+.stage[data-mode='pond'] .frame i:nth-child(3) {
+  background: linear-gradient(160deg, #1bb5c4, #0a6f9a);
+}
+.stage[data-mode='pond'] .frame i:nth-child(3)::after {
+  background:
+    linear-gradient(to right, transparent calc(var(--t) - 1px), rgba(255, 255, 255, 0.16) calc(var(--t) - 1px) var(--t)) 0 0 / var(--t) var(--t),
+    linear-gradient(to bottom, transparent calc(var(--t) - 1px), rgba(255, 255, 255, 0.16) calc(var(--t) - 1px) var(--t)) 0 0 / var(--t) var(--t);
+}
+.stage[data-mode='pond'] .frame b {
+  display: none;
+}
+.stage[data-mode='free'] .frame i:nth-child(1) {
+  background: linear-gradient(160deg, #7a54d6, #3a2f8f);
+}
+.stage[data-mode='free'] .frame i:nth-child(2) {
+  background: linear-gradient(160deg, #ffd45e, #d98a0b);
+}
+
+/* ---------------------------------------------------------------- tiles */
+.board {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* tiles fall in from above the top edge; only the board's own area (and a little shadow room) is drawn */
+  clip-path: inset(calc(var(--t) * -0.22) calc(var(--t) * -0.3) calc(var(--t) * -0.45) calc(var(--t) * -0.3));
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.layer--stars {
+  z-index: 3;
+}
+.layer--fx {
+  z-index: 5;
+}
+
+.tile {
+  position: absolute;
+  left: calc(var(--c) * var(--t));
+  top: calc(var(--r) * var(--t));
+  width: var(--t);
+  height: var(--t);
+  will-change: transform;
+}
+.tile__card {
+  position: absolute;
+  inset: 3.5%;
+  border-radius: 21%;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 -3px 0 rgba(0, 0, 0, 0.13) inset,
+    0 3px 0 rgba(60, 20, 0, 0.26),
+    0 7px 11px rgba(40, 10, 60, 0.3);
+  overflow: hidden;
+}
+/* the corner of every tile is turned down */
+.tile__card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 26%;
+  height: 26%;
+  background: linear-gradient(225deg, rgba(255, 255, 255, 0) 0 50%, rgba(60, 20, 0, 0.17) 50% 100%);
+  border-bottom-left-radius: 32%;
+}
+.tile__img {
+  position: absolute;
+  left: 12%;
+  top: 11%;
+  width: 76%;
+  height: 76%;
+  filter: drop-shadow(0 calc(var(--t) * 0.028) calc(var(--t) * 0.02) rgba(40, 20, 0, 0.42));
+  pointer-events: none;
+}
+
+.tile--kraft .tile__card {
+  background: radial-gradient(120% 120% at 20% 10%, #e8bd86, #c68b4e 72%), #c68b4e;
+}
+.tile--washi .tile__card {
+  background: radial-gradient(120% 120% at 20% 10%, #fffaf0, #efd9b8 78%);
+}
+.tile--gilt .tile__card {
+  background: linear-gradient(135deg, #fff1a8 0%, #f6c332 28%, #d99a14 52%, #ffe27a 74%, #e0a41c 100%);
+}
+.tile--holo .tile__card {
+  background: linear-gradient(120deg, #ffd6f2, #c8d7ff 30%, #c9fff0 55%, #fff4c2 80%, #ffd6f2);
+  background-size: 220% 220%;
+  animation: holo 6s linear infinite;
+}
+@keyframes holo {
+  to {
+    background-position: 220% 0;
+  }
+}
+
+/* specials get a frame of their own so they cannot be mistaken for a figure */
+.tile--wild .tile__card {
+  background: radial-gradient(120% 120% at 25% 15%, #ffffff, #dcebff 80%);
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.035) #fff,
+    0 0 calc(var(--t) * 0.28) calc(var(--t) * 0.03) rgba(120, 190, 255, 0.85),
+    0 7px 11px rgba(40, 10, 60, 0.3);
+}
+.tile--wild .tile__img {
+  animation: whirl 6s linear infinite;
+}
+@keyframes whirl {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.tile--lantern .tile__card {
+  background: radial-gradient(100% 100% at 50% 40%, #6a45c9, #2a1a7a 85%);
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.03) #ffd45e,
+    0 0 calc(var(--t) * 0.3) calc(var(--t) * 0.04) rgba(255, 196, 80, 0.7),
+    0 7px 11px rgba(40, 10, 60, 0.3);
+}
+.tile--lantern .tile__img {
+  animation: sway 3.2s ease-in-out infinite;
+  transform-origin: 50% 5%;
+}
+.tile--koi .tile__card {
+  background: radial-gradient(100% 100% at 50% 30%, #38d6d0, #0b7fa6 88%);
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.03) #c9fff6,
+    0 0 calc(var(--t) * 0.3) calc(var(--t) * 0.04) rgba(90, 240, 225, 0.7),
+    0 7px 11px rgba(40, 10, 60, 0.3);
+}
+.tile--koi .tile__img {
+  animation: swim 3s ease-in-out infinite;
+}
+.tile--crane .tile__card {
+  background: radial-gradient(100% 100% at 30% 20%, #8af0b4, #1f9f6a 88%);
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.03) #e8ffd0,
+    0 0 calc(var(--t) * 0.26) calc(var(--t) * 0.03) rgba(140, 255, 170, 0.65),
+    0 7px 11px rgba(40, 10, 60, 0.3);
+}
+.tile--crane .tile__img {
+  animation: bob 2.6s ease-in-out infinite;
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+@keyframes swim {
+  0%,
+  100% {
+    transform: translateX(-2%) rotate(-3deg);
+  }
+  50% {
+    transform: translateX(2%) rotate(3deg);
+  }
+}
+
+.tile__tag {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  transform: translateX(-50%);
+  padding: 0 calc(var(--t) * 0.07);
+  height: calc(var(--t) * 0.2);
+  line-height: calc(var(--t) * 0.2);
+  border-radius: calc(var(--t) * 0.06);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: calc(var(--t) * 0.15);
+  letter-spacing: 0.04em;
+  color: #fff;
+  white-space: nowrap;
+  box-shadow: 0 calc(var(--t) * 0.02) 0 rgba(0, 0, 0, 0.3);
+}
+.tile--wild .tile__tag {
+  background: linear-gradient(90deg, #ff4b3e, #ff9f1a, #3bd16f, #3aa0ff, #a05cff);
+}
+.tile--lantern .tile__tag {
+  background: var(--vermilion);
+}
+.tile--koi .tile__tag {
+  background: #0b6e96;
+}
+.tile--crane .tile__tag {
+  background: #1b8a5a;
+}
+
+/* a tile sitting under a winning cluster */
+.tile.is-win .tile__card {
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.045) #fff,
+    0 0 calc(var(--t) * 0.3) calc(var(--t) * 0.06) rgba(255, 214, 90, 0.95),
+    0 7px 11px rgba(40, 10, 60, 0.3);
+}
+.board.has-win .tile:not(.is-win) {
+  filter: saturate(0.55) brightness(0.8);
+  transition: filter 0.25s ease;
+}
+
+/* ---------------------------------------------------------------- lucky-star stickers: they belong to a spot on the mat */
+.star {
+  position: absolute;
+  left: calc((var(--c) + 0.5) * var(--t));
+  top: calc((var(--r) - 0.08) * var(--t));
+  width: calc(var(--t) * 0.64);
+  height: calc(var(--t) * 0.64);
+  transform: rotate(9deg);
+  will-change: transform;
+}
+.star img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 calc(var(--t) * 0.025) calc(var(--t) * 0.02) rgba(40, 10, 60, 0.5));
+}
+.star b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-top: 8%;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: calc(var(--t) * 0.25);
+  line-height: 1;
+  color: #fff;
+  -webkit-text-stroke: calc(var(--t) * 0.035) rgba(40, 10, 60, 0.85);
+  paint-order: stroke fill;
+}
+.star[data-big='1'] b {
+  font-size: calc(var(--t) * 0.19);
+}
+
+/* ---------------------------------------------------------------- pay tags: a paper label that lands on each cluster */
+.paytag {
+  position: absolute;
+  left: calc(var(--x) * var(--t));
+  top: calc(var(--y) * var(--t));
+  transform: translate(-50%, -50%) rotate(-3deg);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--t) * 0.06);
+  padding: calc(var(--t) * 0.05) calc(var(--t) * 0.16);
+  border-radius: calc(var(--t) * 0.12);
+  background: linear-gradient(180deg, #fffdf6, #ffeec4);
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.03) var(--ink),
+    0 calc(var(--t) * 0.06) 0 calc(var(--t) * 0.03) rgba(30, 10, 50, 0.55),
+    0 calc(var(--t) * 0.14) calc(var(--t) * 0.14) rgba(30, 10, 50, 0.35);
+  font-family: var(--font-display);
+  font-size: calc(var(--t) * 0.3);
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+  z-index: 6;
+}
+.paytag small {
+  font-family: var(--font-ui);
+  font-weight: 900;
+  font-size: 0.62em;
+  padding: 0.18em 0.45em;
+  border-radius: 999px;
+  background: var(--vermilion);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------- the koi pond: water cells and koi in round dishes */
+.pcell {
+  position: absolute;
+  left: calc(var(--c) * var(--t));
+  top: calc(var(--r) * var(--t));
+  width: var(--t);
+  height: var(--t);
+}
+.pcell::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 46%;
+  margin: -23% 0 0 -23%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  animation: ripple 4.2s ease-out var(--d) infinite;
+}
+@keyframes ripple {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.tile--token .tile__card {
+  border-radius: 50%;
+  inset: 6%;
+  background: radial-gradient(circle at 35% 25%, #f2fffd, #8aeadf 55%, #2aa9c4 100%);
+  box-shadow:
+    0 0 0 calc(var(--t) * 0.045) var(--rim, #ff9f4a),
+    0 0 calc(var(--t) * 0.22) calc(var(--t) * 0.02) var(--glow, rgba(255, 160, 80, 0.55)),
+    0 calc(var(--t) * 0.07) calc(var(--t) * 0.1) rgba(5, 40, 70, 0.4);
+}
+.tile--token .tile__card::after {
+  display: none;
+}
+.tile--token.k0 {
+  --rim: #ffa24d;
+  --glow: rgba(255, 160, 80, 0.5);
+}
+.tile--token.k1 {
+  --rim: #ff5a5a;
+  --glow: rgba(255, 90, 90, 0.55);
+}
+.tile--token.k2 {
+  --rim: #ffd45e;
+  --glow: rgba(255, 212, 94, 0.9);
+}
+.tile--token.k3 {
+  --rim: #cfe6ff;
+  --glow: rgba(190, 225, 255, 0.95);
+}
+.tile--token .tile__img {
+  left: 8%;
+  top: 4%;
+  width: 84%;
+  height: 84%;
+  transform: rotate(var(--rot, 0deg));
+}
+.token__v {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  min-width: 52%;
+  padding: calc(var(--t) * 0.02) calc(var(--t) * 0.1);
+  border-radius: 99px;
+  background: rgba(8, 44, 74, 0.9);
+  box-shadow: 0 0 0 calc(var(--t) * 0.02) rgba(255, 255, 255, 0.55);
+  font-family: var(--font-display);
+  font-size: calc(var(--t) * 0.23);
+  line-height: 1.15;
+  text-align: center;
+  color: #fff;
+  white-space: nowrap;
+}
+.tile--token.k2 .token__v,
+.tile--token.k3 .token__v {
+  background: linear-gradient(180deg, #ffb52e, #e07a08);
+}

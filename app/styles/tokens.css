@@ -1,0 +1,33 @@
+:root {
+  /* paper stocks */
+  --paper: #fff6e4;
+  --paper-2: #f7e6c6;
+  --paper-3: #e8d0a2;
+  --kraft: #d49a5c;
+  --kraft-2: #b97d3f;
+
+  /* ink and colour */
+  --ink: #2b2140;
+  --ink-2: #4b3d66;
+  --ink-3: #7a6d94;
+  --vermilion: #ff4b3e;
+  --vermilion-2: #d62f2f;
+  --marigold: #ffbf1f;
+  --marigold-2: #e59a0b;
+  --matcha: #6fcf4d;
+  --teal: #19b5b0;
+  --sky: #46a8ff;
+  --indigo: #3a2f8f;
+  --violet: #8c5cff;
+  --sakura: #ff7eb3;
+
+  --font-display: var(--font-bagel), 'Arial Rounded MT Bold', 'Trebuchet MS', system-ui, sans-serif;
+  --font-ui: var(--font-maru), ui-rounded, 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
+
+  /* a sheet lying on the table: highlight on top, shade below, a contact shadow and a soft one */
+  --lift: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 -3px 0 rgba(70, 30, 0, 0.14) inset, 0 3px 0 rgba(70, 30, 0, 0.3), 0 10px 18px rgba(40, 10, 70, 0.32);
+  --lift-sm: 0 1px 0 rgba(255, 255, 255, 0.55) inset, 0 -2px 0 rgba(70, 30, 0, 0.14) inset, 0 2px 0 rgba(70, 30, 0, 0.28), 0 5px 9px rgba(40, 10, 70, 0.28);
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
